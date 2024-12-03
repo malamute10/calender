@@ -2,9 +2,11 @@ package com.example.calender.entity;
 
 
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class Schedule {
 
     private int id;
@@ -13,4 +15,11 @@ public class Schedule {
     private String content;
     private LocalDateTime createdDatetime;
     private LocalDateTime updatedDatetime;
+
+
+    public Schedule(String author, String password, String content) {
+        this.author = author;
+        this.password = password;
+        this.content = content;
+    }
 }
