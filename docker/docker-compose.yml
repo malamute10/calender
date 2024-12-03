@@ -1,0 +1,9 @@
+services:
+  calender-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: calender
+      MYSQL_ROOT_PASSWORD: admin
+
+    ports:
+      - "3306:3306"
