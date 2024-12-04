@@ -55,22 +55,22 @@ public class ScheduleRepositoryLv4 {
         return schedules.stream().findAny();
     }
 
-    public List<ScheduleLv4> findAll(String author, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime) {
+    public List<ScheduleLv4> findAll(Integer userId, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime) {
 
-        String whereClause = makeWhereClause(author, startUpdatedDatetime, endUpdatedDatetime);
+        String whereClause = makeWhereClause(userId, startUpdatedDatetime, endUpdatedDatetime);
 
         final String SELECT_SQL = SELECT_QUERY + whereClause + " ORDER BY s.updated_datetime DESC";
 
         return this.jdbcTemplate.query(SELECT_SQL, scheduleRowMapper());
     }
 
-    private String makeWhereClause(String author, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime) {
+    private String makeWhereClause(Integer userId, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime) {
 
         StringBuilder stringBuilder = new StringBuilder("WHERE 1=1");
 
-        if (author != null) {
-            stringBuilder.append(" AND u.name = '")
-                    .append(author)
+        if (userId != null) {
+            stringBuilder.append(" AND u.id = '")
+                    .append(userId)
                     .append("'");
         }
 
@@ -92,9 +92,13 @@ public class ScheduleRepositoryLv4 {
     private RowMapper<ScheduleLv4> scheduleRowMapper() {
         return (rs, rowNum) -> {
 
-            UserLv4 user = new UserLv4(rs.getInt("u.id"), rs.getString("u.name"), rs.getString("u.email"),
-                                       rs.getObject("u.created_datetime", LocalDateTime.class),
-                                       rs.getObject("u.updated_datetime", LocalDateTime.class));
+            UserLv4 user = new UserLv4(
+                    rs.getInt("u.id"),
+                    rs.getString("u.name"),
+                    rs.getString("u.email"),
+                   rs.getObject("u.created_datetime", LocalDateTime.class),
+                   rs.getObject("u.updated_datetime", LocalDateTime.class)
+            );
 
             return new ScheduleLv4(
                     rs.getInt("s.id"),

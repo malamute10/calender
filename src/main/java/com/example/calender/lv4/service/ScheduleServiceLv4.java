@@ -28,9 +28,9 @@ public class ScheduleServiceLv4 {
     }
 
     @Transactional(readOnly = true)
-    public List<ScheduleResponseDtoLv4> getAll(String author, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime) {
+    public List<ScheduleResponseDtoLv4> getAll(Integer userId, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime) {
 
-        return scheduleRepository.findAll(author, startUpdatedDatetime, endUpdatedDatetime).stream()
+        return scheduleRepository.findAll(userId, startUpdatedDatetime, endUpdatedDatetime).stream()
                 .map(ScheduleResponseDtoLv4::new)
                 .toList();
     }

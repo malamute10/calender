@@ -39,7 +39,7 @@ public class ScheduleControllerLv4 {
     }
 
     @GetMapping()
-    public List<ScheduleResponseDtoLv4> search(@RequestParam(required = false) String author,
+    public List<ScheduleResponseDtoLv4> search(@RequestParam(required = false) Integer userId,
                                                @RequestParam(required = false) LocalDate updatedDate) {
 
         LocalDateTime startUpdatedDatetime = null;
@@ -50,7 +50,7 @@ public class ScheduleControllerLv4 {
             endUpdatedDatetime = updatedDate.plusDays(1).atStartOfDay();
         }
 
-        return scheduleService.getAll(author, startUpdatedDatetime, endUpdatedDatetime);
+        return scheduleService.getAll(userId, startUpdatedDatetime, endUpdatedDatetime);
     }
 
     @GetMapping("/{id}")
