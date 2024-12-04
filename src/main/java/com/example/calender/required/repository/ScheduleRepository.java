@@ -1,6 +1,7 @@
 package com.example.calender.required.repository;
 
 import com.example.calender.required.entity.Schedule;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -47,16 +48,16 @@ public class ScheduleRepository {
         return schedules.stream().findAny();
     }
 
-    public List<Schedule> findAll(String author, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime) {
+    public List<Schedule> findAll(String author, LocalDate updatedDate) {
 
-        String whereClause = makeWhereClause(author, startUpdatedDatetime, endUpdatedDatetime);
+        String whereClause = makeWhereClause(author, updatedDate);
 
         final String SELECT_SQL = "SELECT * FROM schedule " + whereClause + " ORDER BY updated_datetime DESC";
 
         return this.jdbcTemplate.query(SELECT_SQL, scheduleRowMapper());
     }
 
-    private String makeWhereClause(String author, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime) {
+    private String makeWhereClause(String author, LocalDate updatedDate) {
 
         StringBuilder stringBuilder = new StringBuilder("WHERE 1=1");
 
@@ -66,14 +67,14 @@ public class ScheduleRepository {
                     .append("'");
         }
 
-        if(startUpdatedDatetime != null) {
-            stringBuilder.append(" AND updated_datetime >= '")
-                    .append(startUpdatedDatetime)
-                    .append("'");
-        }
+        if(updatedDate != null) {
 
-        if(endUpdatedDatetime != null) {
-            stringBuilder.append(" AND updated_datetime < '")
+            LocalDateTime startUpdatedDatetime = updatedDate.atStartOfDay();
+            LocalDateTime endUpdatedDatetime = updatedDate.plusDays(1).atStartOfDay();
+
+            stringBuilder.append(" AND updated_datetime BETWEEN '")
+                    .append(startUpdatedDatetime)
+                    .append("' AND '")
                     .append(endUpdatedDatetime)
                     .append("'");
         }

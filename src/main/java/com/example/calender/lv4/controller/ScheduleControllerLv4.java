@@ -48,15 +48,7 @@ public class ScheduleControllerLv4 {
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
-        LocalDateTime startUpdatedDatetime = null;
-        LocalDateTime endUpdatedDatetime = null;
-
-        if(updatedDate != null) {
-            startUpdatedDatetime = updatedDate.atStartOfDay();
-            endUpdatedDatetime = updatedDate.plusDays(1).atStartOfDay();
-        }
-
-        return scheduleService.getAll(userId, startUpdatedDatetime, endUpdatedDatetime, pageable);
+        return scheduleService.getAll(userId, updatedDate, pageable);
     }
 
     @GetMapping("/{id}")

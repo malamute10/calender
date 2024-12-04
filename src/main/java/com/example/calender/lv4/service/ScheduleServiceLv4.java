@@ -5,6 +5,7 @@ import com.example.calender.lv4.dto.schedule.SchedulePutRequestDtoLv4;
 import com.example.calender.lv4.dto.schedule.ScheduleResponseDtoLv4;
 import com.example.calender.lv4.entity.ScheduleLv4;
 import com.example.calender.lv4.repository.ScheduleRepositoryLv4;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -29,9 +30,9 @@ public class ScheduleServiceLv4 {
     }
 
     @Transactional(readOnly = true)
-    public List<ScheduleResponseDtoLv4> getAll(Integer userId, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime, Pageable pageable) {
+    public List<ScheduleResponseDtoLv4> getAll(Integer userId, LocalDate updatedDate, Pageable pageable) {
 
-        return scheduleRepository.findAll(userId, startUpdatedDatetime, endUpdatedDatetime, pageable).stream()
+        return scheduleRepository.findAll(userId, updatedDate, pageable).stream()
                 .map(ScheduleResponseDtoLv4::new)
                 .toList();
     }

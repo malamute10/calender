@@ -42,15 +42,7 @@ public class ScheduleControllerLv3 {
     public List<ScheduleResponseDtoLv3> search(@RequestParam(required = false) Integer userId,
                                                @RequestParam(required = false) LocalDate updatedDate) {
 
-        LocalDateTime startUpdatedDatetime = null;
-        LocalDateTime endUpdatedDatetime = null;
-
-        if(updatedDate != null) {
-            startUpdatedDatetime = updatedDate.atStartOfDay();
-            endUpdatedDatetime = updatedDate.plusDays(1).atStartOfDay();
-        }
-
-        return scheduleService.getAll(userId, startUpdatedDatetime, endUpdatedDatetime);
+        return scheduleService.getAll(userId, updatedDate);
     }
 
     @GetMapping("/{id}")

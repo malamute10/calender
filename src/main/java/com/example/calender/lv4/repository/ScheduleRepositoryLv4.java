@@ -2,6 +2,7 @@ package com.example.calender.lv4.repository;
 
 import com.example.calender.lv4.entity.ScheduleLv4;
 import com.example.calender.lv4.entity.UserLv4;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -56,16 +57,16 @@ public class ScheduleRepositoryLv4 {
         return schedules.stream().findAny();
     }
 
-    public List<ScheduleLv4> findAll(Integer userId, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime, Pageable pageable) {
+    public List<ScheduleLv4> findAll(Integer userId, LocalDate updatedDate, Pageable pageable) {
 
-        String whereClause = makeWhereClause(userId, startUpdatedDatetime, endUpdatedDatetime);
+        String whereClause = makeWhereClause(userId, updatedDate);
 
         final String SELECT_SQL = SELECT_QUERY + whereClause + " ORDER BY s.updated_datetime DESC LIMIT ? OFFSET ?";
 
         return this.jdbcTemplate.query(SELECT_SQL, scheduleRowMapper(), pageable.getPageSize(), pageable.getOffset());
     }
 
-    private String makeWhereClause(Integer userId, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime) {
+    private String makeWhereClause(Integer userId, LocalDate updatedDate) {
 
         StringBuilder stringBuilder = new StringBuilder("WHERE 1=1");
 
@@ -75,14 +76,14 @@ public class ScheduleRepositoryLv4 {
                     .append("'");
         }
 
-        if(startUpdatedDatetime != null) {
-            stringBuilder.append(" AND s.updated_datetime >= '")
-                    .append(startUpdatedDatetime)
-                    .append("'");
-        }
+        if(updatedDate != null) {
 
-        if(endUpdatedDatetime != null) {
-            stringBuilder.append(" AND s.updated_datetime < '")
+            LocalDateTime startUpdatedDatetime = updatedDate.atStartOfDay();
+            LocalDateTime endUpdatedDatetime = updatedDate.plusDays(1).atStartOfDay();
+
+            stringBuilder.append(" AND updated_datetime BETWEEN '")
+                    .append(startUpdatedDatetime)
+                    .append("' AND '")
                     .append(endUpdatedDatetime)
                     .append("'");
         }

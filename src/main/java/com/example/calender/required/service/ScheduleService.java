@@ -5,6 +5,7 @@ import com.example.calender.required.dto.SchedulePutRequestDto;
 import com.example.calender.required.dto.ScheduleResponseDto;
 import com.example.calender.required.entity.Schedule;
 import com.example.calender.required.repository.ScheduleRepository;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +29,9 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = true)
-    public List<ScheduleResponseDto> getAll(String author, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime) {
+    public List<ScheduleResponseDto> getAll(String author, LocalDate updatedDate) {
 
-        return scheduleRepository.findAll(author, startUpdatedDatetime, endUpdatedDatetime).stream()
+        return scheduleRepository.findAll(author, updatedDate).stream()
                 .map(ScheduleResponseDto::new)
                 .toList();
     }
