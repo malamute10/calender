@@ -1,8 +1,6 @@
 package com.example.calender.repository;
 
 import com.example.calender.entity.Schedule;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -87,9 +85,17 @@ public class ScheduleRepository {
         return (rs, rowNum) -> new Schedule(
                 rs.getInt("id"),
                 rs.getString("author"),
+                rs.getString("password"),
                 rs.getString("content"),
                 rs.getObject("created_datetime", LocalDateTime.class),
                 rs.getObject("updated_datetime", LocalDateTime.class)
         );
+    }
+
+    public void updateAuthorAndContentById(int id, String author, String content) {
+
+        final String UPDATE_SQL = "UPDATE schedule SET author = ?, content = ? WHERE id = ?";
+
+        this.jdbcTemplate.update(UPDATE_SQL, author, content, id);
     }
 }

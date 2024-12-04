@@ -1,6 +1,7 @@
 package com.example.calender.service;
 
 import com.example.calender.dto.ScheduleCreationRequestDto;
+import com.example.calender.dto.SchedulePutRequestDto;
 import com.example.calender.dto.ScheduleResponseDto;
 import com.example.calender.entity.Schedule;
 import com.example.calender.repository.ScheduleRepository;
@@ -34,10 +35,32 @@ public class ScheduleService {
                 .toList();
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public ScheduleResponseDto putById(int id, SchedulePutRequestDto putRequestDto) {
+
+        String savedPassword = getById(id).getPassword();
+        verifyPasswordEquality(savedPassword, putRequestDto.getPassword());
+
+        scheduleRepository.updateAuthorAndContentById(id, putRequestDto.getAuthor(), putRequestDto.getContent());
+
+        return getResponseDtoById(id);
+    }
+
+    private void verifyPasswordEquality(String savedPassword, String inputPassword) {
+        if(!savedPassword.equals(inputPassword)) {
+            throw new RuntimeException("Password is incorrect");
+        }
+    }
+
     @Transactional(readOnly = true)
-    public ScheduleResponseDto getById(int id) {
+    public ScheduleResponseDto getResponseDtoById(int id) {
+
+        return new ScheduleResponseDto(getById(id));
+    }
+
+    @Transactional(readOnly = true)
+    public Schedule getById(int id) {
         return scheduleRepository.findById(id)
-                .map(ScheduleResponseDto::new)
                 .orElseThrow(() -> new RuntimeException("Schedule not found"));
     }
 }

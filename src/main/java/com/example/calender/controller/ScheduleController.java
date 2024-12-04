@@ -1,19 +1,18 @@
 package com.example.calender.controller;
 
 import com.example.calender.dto.ScheduleCreationRequestDto;
-
+import com.example.calender.dto.SchedulePutRequestDto;
 import com.example.calender.dto.ScheduleResponseDto;
 import com.example.calender.service.ScheduleService;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,7 +48,13 @@ public class ScheduleController {
     }
 
     @GetMapping("/{id}")
-    public ScheduleResponseDto getById(@PathVariable Integer id) {
-        return scheduleService.getById(id);
+    public ScheduleResponseDto getScheduleResponseDtoById(@PathVariable Integer id) {
+        return scheduleService.getResponseDtoById(id);
+    }
+
+    @PutMapping("/{id}")
+    public ScheduleResponseDto putById(@PathVariable Integer id,
+                                       @RequestBody SchedulePutRequestDto putRequestDto) {
+        return scheduleService.putById(id, putRequestDto);
     }
 }
