@@ -59,7 +59,7 @@ public class ScheduleRepositoryLv3 {
 
         String whereClause = makeWhereClause(author, startUpdatedDatetime, endUpdatedDatetime);
 
-        final String SELECT_SQL = SELECT_QUERY + whereClause + " ORDER BY updated_datetime DESC";
+        final String SELECT_SQL = SELECT_QUERY + whereClause + " ORDER BY s.updated_datetime DESC";
 
         return this.jdbcTemplate.query(SELECT_SQL, scheduleRowMapper());
     }
@@ -69,7 +69,7 @@ public class ScheduleRepositoryLv3 {
         StringBuilder stringBuilder = new StringBuilder("WHERE 1=1");
 
         if (author != null) {
-            stringBuilder.append(" AND author = '")
+            stringBuilder.append(" AND u.name = '")
                     .append(author)
                     .append("'");
         }
@@ -99,10 +99,10 @@ public class ScheduleRepositoryLv3 {
             return new ScheduleLv3(
                     rs.getInt("s.id"),
                     user,
-                    rs.getString("password"),
-                    rs.getString("content"),
-                    rs.getObject("created_datetime", LocalDateTime.class),
-                    rs.getObject("updated_datetime", LocalDateTime.class)
+                    rs.getString("s.password"),
+                    rs.getString("s.content"),
+                    rs.getObject("s.created_datetime", LocalDateTime.class),
+                    rs.getObject("s.updated_datetime", LocalDateTime.class)
             );
         };
     }
