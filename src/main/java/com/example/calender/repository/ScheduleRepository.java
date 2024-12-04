@@ -49,21 +49,47 @@ public class ScheduleRepository {
         return schedules.stream().findAny();
     }
 
-    private RowMapper<Schedule> scheduleRowMapper() {
-        return new RowMapper<Schedule>() {
-            @Override
-            public Schedule mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return new Schedule(
-                        rs.getInt("id"),
-                        rs.getString("author"),
-                        rs.getString("password"),
-                        rs.getString("content"),
-                        rs.getObject("created_datetime", LocalDateTime.class),
-                        rs.getObject("updated_datetime", LocalDateTime.class)
-                );
-            }
+    public List<Schedule> findAll(String author, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime) {
 
-        };
+        String whereClause = makeWhereClause(author, startUpdatedDatetime, endUpdatedDatetime);
+
+        final String SELECT_SQL = "SELECT * FROM schedule " + whereClause + " ORDER BY updated_datetime DESC";
+
+        return this.jdbcTemplate.query(SELECT_SQL, scheduleRowMapper());
     }
 
+    private String makeWhereClause(String author, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime) {
+
+        StringBuilder stringBuilder = new StringBuilder("WHERE 1=1");
+
+        if (author != null) {
+            stringBuilder.append(" AND author = '")
+                    .append(author)
+                    .append("'");
+        }
+
+        if(startUpdatedDatetime != null) {
+            stringBuilder.append(" AND updated_datetime >= '")
+                    .append(startUpdatedDatetime)
+                    .append("'");
+        }
+
+        if(endUpdatedDatetime != null) {
+            stringBuilder.append(" AND updated_datetime < '")
+                    .append(endUpdatedDatetime)
+                    .append("'");
+        }
+
+        return stringBuilder.toString();
+    }
+
+    private RowMapper<Schedule> scheduleRowMapper() {
+        return (rs, rowNum) -> new Schedule(
+                rs.getInt("id"),
+                rs.getString("author"),
+                rs.getString("content"),
+                rs.getObject("created_datetime", LocalDateTime.class),
+                rs.getObject("updated_datetime", LocalDateTime.class)
+        );
+    }
 }

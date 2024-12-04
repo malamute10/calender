@@ -22,4 +22,13 @@ public class Schedule {
         this.password = password;
         this.content = content;
     }
+
+    public Schedule(int id, String author, String content, LocalDateTime createdDatetime,
+                    LocalDateTime updatedDatetime) {
+        this.id = id;
+        this.author = author;
+        this.content = content;
+        this.createdDatetime = createdDatetime;
+        this.updatedDatetime = updatedDatetime;
+    }
 }
