@@ -1,10 +1,10 @@
-package com.example.calender.service;
+package com.example.calender.required.service;
 
-import com.example.calender.dto.ScheduleCreationRequestDto;
-import com.example.calender.dto.SchedulePutRequestDto;
-import com.example.calender.dto.ScheduleResponseDto;
-import com.example.calender.entity.Schedule;
-import com.example.calender.repository.ScheduleRepository;
+import com.example.calender.required.dto.ScheduleCreationRequestDto;
+import com.example.calender.required.dto.SchedulePutRequestDto;
+import com.example.calender.required.dto.ScheduleResponseDto;
+import com.example.calender.required.entity.Schedule;
+import com.example.calender.required.repository.ScheduleRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

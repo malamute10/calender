@@ -1,6 +1,6 @@
-package com.example.calender.repository;
+package com.example.calender.required.repository;
 
-import com.example.calender.entity.Schedule;
+import com.example.calender.required.entity.Schedule;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;

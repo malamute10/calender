@@ -1,6 +1,6 @@
-package com.example.calender.dto;
+package com.example.calender.required.dto;
 
-import com.example.calender.entity.Schedule;
+import com.example.calender.required.entity.Schedule;
 import lombok.Getter;
 
 @Getter

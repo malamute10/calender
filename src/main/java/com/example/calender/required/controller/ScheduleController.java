@@ -1,9 +1,9 @@
-package com.example.calender.controller;
+package com.example.calender.required.controller;
 
-import com.example.calender.dto.ScheduleCreationRequestDto;
-import com.example.calender.dto.SchedulePutRequestDto;
-import com.example.calender.dto.ScheduleResponseDto;
-import com.example.calender.service.ScheduleService;
+import com.example.calender.required.dto.ScheduleCreationRequestDto;
+import com.example.calender.required.dto.SchedulePutRequestDto;
+import com.example.calender.required.dto.ScheduleResponseDto;
+import com.example.calender.required.service.ScheduleService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;

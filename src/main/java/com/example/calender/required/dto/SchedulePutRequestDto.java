@@ -1,4 +1,4 @@
-package com.example.calender.dto;
+package com.example.calender.required.dto;
 
 import lombok.Getter;
 
