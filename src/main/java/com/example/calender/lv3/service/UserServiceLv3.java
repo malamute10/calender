@@ -1,5 +1,7 @@
 package com.example.calender.lv3.service;
 
+import com.example.calender.lv3.dto.user.UserDtoLv3;
+import com.example.calender.lv3.entity.UserLv3;
 import com.example.calender.lv3.repository.UserRepositoryLv3;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,8 +15,21 @@ public class UserServiceLv3 {
 
     @Transactional(readOnly = true)
     public void verifyUserExists(int id) {
-        userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Not Found User"));
+        getById(id);
+    }
 
+    @Transactional(rollbackFor = Exception.class)
+    public void patchName(int id, String name) {
+        userRepository.updateNameById(id, name);
+    }
+
+    @Transactional(readOnly = true)
+    public UserDtoLv3 getUserDtoById(int id) {
+        return new UserDtoLv3(getById(id));
+    }
+
+    private UserLv3 getById(int id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Not Found User"));
     }
 }
