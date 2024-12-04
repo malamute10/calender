@@ -1,9 +1,10 @@
 package com.example.calender.lv3.controller;
 
-import com.example.calender.lv3.dto.ScheduleCreationRequestDto;
-import com.example.calender.lv3.dto.SchedulePutRequestDto;
-import com.example.calender.lv3.dto.ScheduleResponseDto;
-import com.example.calender.lv3.service.ScheduleService;
+import com.example.calender.lv3.dto.schedule.ScheduleCreationRequestDtoLv3;
+import com.example.calender.lv3.dto.schedule.SchedulePutRequestDtoLv3;
+import com.example.calender.lv3.dto.schedule.ScheduleResponseDtoLv3;
+import com.example.calender.lv3.service.ScheduleServiceLv3;
+import com.example.calender.lv3.service.UserServiceLv3;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,22 +21,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/schedules")
+@RequestMapping("/lv3/schedules")
 @RestController
 @RequiredArgsConstructor
-public class ScheduleController {
+public class ScheduleControllerLv3 {
 
-    private final ScheduleService scheduleService;
+    private final UserServiceLv3 userService;
+    private final ScheduleServiceLv3 scheduleService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping()
-    public ScheduleResponseDto createSchedule(@RequestBody ScheduleCreationRequestDto creationDto) {
+    public ScheduleResponseDtoLv3 createSchedule(@RequestBody ScheduleCreationRequestDtoLv3 creationDto) {
+
+        userService.verifyUserExists(creationDto.getUserId());
+
         return scheduleService.create(creationDto);
     }
 
     @GetMapping()
-    public List<ScheduleResponseDto> search(@RequestParam(required = false) String author,
-                                            @RequestParam(required = false) LocalDate updatedDate) {
+    public List<ScheduleResponseDtoLv3> search(@RequestParam(required = false) String author,
+                                               @RequestParam(required = false) LocalDate updatedDate) {
 
         LocalDateTime startUpdatedDatetime = null;
         LocalDateTime endUpdatedDatetime = null;
@@ -49,13 +54,13 @@ public class ScheduleController {
     }
 
     @GetMapping("/{id}")
-    public ScheduleResponseDto getScheduleResponseDtoById(@PathVariable Integer id) {
+    public ScheduleResponseDtoLv3 getScheduleResponseDtoById(@PathVariable Integer id) {
         return scheduleService.getResponseDtoById(id);
     }
 
     @PutMapping("/{id}")
-    public ScheduleResponseDto putById(@PathVariable Integer id,
-                                       @RequestBody SchedulePutRequestDto putRequestDto) {
+    public ScheduleResponseDtoLv3 putById(@PathVariable Integer id,
+                                          @RequestBody SchedulePutRequestDtoLv3 putRequestDto) {
         return scheduleService.putById(id, putRequestDto);
     }
 

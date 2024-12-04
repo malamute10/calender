@@ -1,21 +1,22 @@
-package com.example.calender.lv3.dto;
+package com.example.calender.lv3.dto.schedule;
 
-import com.example.calender.lv3.entity.Schedule;
+import com.example.calender.lv3.dto.user.UserDtoLv3;
+import com.example.calender.lv3.entity.ScheduleLv3;
 import java.time.LocalDateTime;
 import lombok.Getter;
 
 @Getter
-public class ScheduleResponseDto {
+public class ScheduleResponseDtoLv3 {
 
     private int id;
-    private String author;
+    private UserDtoLv3 user;
     private String content;
     private LocalDateTime createdDatetime;
     private LocalDateTime updatedDatetime;
 
-    public ScheduleResponseDto(Schedule schedule) {
+    public ScheduleResponseDtoLv3(ScheduleLv3 schedule) {
         this.id = schedule.getId();
-        this.author = schedule.getAuthor();
+        this.user = new UserDtoLv3(schedule.getUser());
         this.content = schedule.getContent();
         this.createdDatetime = schedule.getCreatedDatetime();
         this.updatedDatetime = schedule.getUpdatedDatetime();

@@ -1,10 +1,10 @@
 package com.example.calender.lv3.service;
 
-import com.example.calender.lv3.dto.ScheduleCreationRequestDto;
-import com.example.calender.lv3.dto.SchedulePutRequestDto;
-import com.example.calender.lv3.dto.ScheduleResponseDto;
-import com.example.calender.lv3.entity.Schedule;
-import com.example.calender.lv3.repository.ScheduleRepository;
+import com.example.calender.lv3.dto.schedule.ScheduleCreationRequestDtoLv3;
+import com.example.calender.lv3.dto.schedule.SchedulePutRequestDtoLv3;
+import com.example.calender.lv3.dto.schedule.ScheduleResponseDtoLv3;
+import com.example.calender.lv3.entity.ScheduleLv3;
+import com.example.calender.lv3.repository.ScheduleRepositoryLv3;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -13,30 +13,30 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class ScheduleService {
+public class ScheduleServiceLv3 {
 
-    private final ScheduleRepository scheduleRepository;
+    private final ScheduleRepositoryLv3 scheduleRepository;
 
     @Transactional(rollbackFor = Exception.class)
-    public ScheduleResponseDto create(ScheduleCreationRequestDto creationDto) {
+    public ScheduleResponseDtoLv3 create(ScheduleCreationRequestDtoLv3 creationDto) {
 
-        Schedule schedule = creationDto.toEntity();
+        ScheduleLv3 schedule = creationDto.toEntity();
 
-        Schedule savedSchedule = scheduleRepository.save(schedule);
+        ScheduleLv3 savedSchedule = scheduleRepository.save(schedule);
 
-        return new ScheduleResponseDto(savedSchedule);
+        return new ScheduleResponseDtoLv3(savedSchedule);
     }
 
     @Transactional(readOnly = true)
-    public List<ScheduleResponseDto> getAll(String author, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime) {
+    public List<ScheduleResponseDtoLv3> getAll(String author, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime) {
 
         return scheduleRepository.findAll(author, startUpdatedDatetime, endUpdatedDatetime).stream()
-                .map(ScheduleResponseDto::new)
+                .map(ScheduleResponseDtoLv3::new)
                 .toList();
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public ScheduleResponseDto putById(int id, SchedulePutRequestDto putRequestDto) {
+    public ScheduleResponseDtoLv3 putById(int id, SchedulePutRequestDtoLv3 putRequestDto) {
 
         String savedPassword = getById(id).getPassword();
         verifyPasswordEquality(savedPassword, putRequestDto.getPassword());
@@ -62,13 +62,13 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = true)
-    public ScheduleResponseDto getResponseDtoById(int id) {
+    public ScheduleResponseDtoLv3 getResponseDtoById(int id) {
 
-        return new ScheduleResponseDto(getById(id));
+        return new ScheduleResponseDtoLv3(getById(id));
     }
 
     @Transactional(readOnly = true)
-    public Schedule getById(int id) {
+    public ScheduleLv3 getById(int id) {
         return scheduleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Schedule not found"));
     }

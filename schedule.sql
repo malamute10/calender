@@ -26,7 +26,7 @@ CREATE TABLE user (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE schedule (
+CREATE TABLE schedule_challenge (
 
     id                  INT UNSIGNED AUTO_INCREMENT             NOT NULL,
     user_id             INT UNSIGNED                            NOT NULL,
