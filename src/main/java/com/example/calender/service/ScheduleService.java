@@ -33,4 +33,11 @@ public class ScheduleService {
                 .map(ScheduleResponseDto::new)
                 .toList();
     }
+
+    @Transactional(readOnly = true)
+    public ScheduleResponseDto getById(int id) {
+        return scheduleRepository.findById(id)
+                .map(ScheduleResponseDto::new)
+                .orElseThrow(() -> new RuntimeException("Schedule not found"));
+    }
 }

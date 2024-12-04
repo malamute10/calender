@@ -40,7 +40,7 @@ public class ScheduleRepository {
                 .orElseThrow(() -> new RuntimeException("Error Occur during Save Entity"));
     }
 
-    private Optional<Schedule> findById(Integer id) {
+    public Optional<Schedule> findById(Integer id) {
 
         final String SELECT_SQL = "SELECT * FROM schedule WHERE id = ?";
 
