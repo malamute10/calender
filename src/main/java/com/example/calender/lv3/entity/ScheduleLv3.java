@@ -10,7 +10,7 @@ import lombok.Getter;
 public class ScheduleLv3 {
 
     private int id;
-    private UserLv3 user;
+    private int userId;
     private String password;
     private String content;
     private LocalDateTime createdDatetime;
@@ -18,13 +18,7 @@ public class ScheduleLv3 {
 
 
     public ScheduleLv3(int userId, String password, String content) {
-        this.user = new UserLv3(userId);
-        this.password = password;
-        this.content = content;
-    }
-
-    public ScheduleLv3(UserLv3 user, String password, String content) {
-        this.user = user;
+        this.userId = userId;
         this.password = password;
         this.content = content;
     }

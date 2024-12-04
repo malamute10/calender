@@ -18,16 +18,6 @@ public class UserServiceLv3 {
         getById(id);
     }
 
-    @Transactional(rollbackFor = Exception.class)
-    public void patchName(int id, String name) {
-        userRepository.updateNameById(id, name);
-    }
-
-    @Transactional(readOnly = true)
-    public UserDtoLv3 getUserDtoById(int id) {
-        return new UserDtoLv3(getById(id));
-    }
-
     private UserLv3 getById(int id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Not Found User"));

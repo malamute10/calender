@@ -9,14 +9,14 @@ import lombok.Getter;
 public class ScheduleResponseDtoLv3 {
 
     private int id;
-    private UserDtoLv3 user;
+    private int userId;
     private String content;
     private LocalDateTime createdDatetime;
     private LocalDateTime updatedDatetime;
 
     public ScheduleResponseDtoLv3(ScheduleLv3 schedule) {
         this.id = schedule.getId();
-        this.user = new UserDtoLv3(schedule.getUser());
+        this.userId = schedule.getUserId();
         this.content = schedule.getContent();
         this.createdDatetime = schedule.getCreatedDatetime();
         this.updatedDatetime = schedule.getUpdatedDatetime();

@@ -18,13 +18,6 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class ScheduleRepositoryLv3 {
 
-    private static final String SELECT_QUERY = """
-        SELECT\s
-        *
-        FROM schedule_challenge s
-        INNER JOIN user u ON u.id = s.user_id
-  \s""";
-
     private final JdbcTemplate jdbcTemplate;
 
     public ScheduleLv3 save(ScheduleLv3 schedule) {
@@ -36,7 +29,7 @@ public class ScheduleRepositoryLv3 {
                 .usingGeneratedKeyColumns("id");
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("user_id", schedule.getUser().getId());
+        parameters.put("user_id", schedule.getUserId());
         parameters.put("password", schedule.getPassword());
         parameters.put("content", schedule.getContent());
 
@@ -48,40 +41,40 @@ public class ScheduleRepositoryLv3 {
 
     public Optional<ScheduleLv3> findById(Integer id) {
 
-        final String SELECT_SQL = SELECT_QUERY + " WHERE s.id = ?";
+        final String SELECT_SQL = "SELECT * FROM schedule_challenge WHERE id = ?";
 
         List<ScheduleLv3> schedules = this.jdbcTemplate.query(SELECT_SQL, scheduleRowMapper(), id);
 
         return schedules.stream().findAny();
     }
 
-    public List<ScheduleLv3> findAll(String author, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime) {
+    public List<ScheduleLv3> findAll(Integer userId, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime) {
 
-        String whereClause = makeWhereClause(author, startUpdatedDatetime, endUpdatedDatetime);
+        String whereClause = makeWhereClause(userId, startUpdatedDatetime, endUpdatedDatetime);
 
-        final String SELECT_SQL = SELECT_QUERY + whereClause + " ORDER BY s.updated_datetime DESC";
+        final String SELECT_SQL = "SELECT * FROM schedule_challenge " + whereClause + " ORDER BY updated_datetime DESC";
 
         return this.jdbcTemplate.query(SELECT_SQL, scheduleRowMapper());
     }
 
-    private String makeWhereClause(String author, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime) {
+    private String makeWhereClause(Integer userId, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime) {
 
         StringBuilder stringBuilder = new StringBuilder("WHERE 1=1");
 
-        if (author != null) {
-            stringBuilder.append(" AND u.name = '")
-                    .append(author)
+        if (userId != null) {
+            stringBuilder.append(" AND user_id = '")
+                    .append(userId)
                     .append("'");
         }
 
         if(startUpdatedDatetime != null) {
-            stringBuilder.append(" AND s.updated_datetime >= '")
+            stringBuilder.append(" AND updated_datetime >= '")
                     .append(startUpdatedDatetime)
                     .append("'");
         }
 
         if(endUpdatedDatetime != null) {
-            stringBuilder.append(" AND s.updated_datetime < '")
+            stringBuilder.append(" AND updated_datetime < '")
                     .append(endUpdatedDatetime)
                     .append("'");
         }
@@ -90,21 +83,15 @@ public class ScheduleRepositoryLv3 {
     }
 
     private RowMapper<ScheduleLv3> scheduleRowMapper() {
-        return (rs, rowNum) -> {
-
-            UserLv3 user = new UserLv3(rs.getInt("u.id"), rs.getString("u.name"), rs.getString("u.email"),
-                                       rs.getObject("u.created_datetime", LocalDateTime.class),
-                                       rs.getObject("u.updated_datetime", LocalDateTime.class));
-
-            return new ScheduleLv3(
-                    rs.getInt("s.id"),
-                    user,
-                    rs.getString("s.password"),
-                    rs.getString("s.content"),
-                    rs.getObject("s.created_datetime", LocalDateTime.class),
-                    rs.getObject("s.updated_datetime", LocalDateTime.class)
+        return (rs, rowNum) ->
+            new ScheduleLv3(
+                    rs.getInt("id"),
+                    rs.getInt("user_id"),
+                    rs.getString("password"),
+                    rs.getString("content"),
+                    rs.getObject("created_datetime", LocalDateTime.class),
+                    rs.getObject("updated_datetime", LocalDateTime.class)
             );
-        };
     }
 
     public void updateContentById(int id, String content) {
