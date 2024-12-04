@@ -98,4 +98,11 @@ public class ScheduleRepository {
 
         this.jdbcTemplate.update(UPDATE_SQL, author, content, id);
     }
+
+    public void deleteById(int id) {
+
+        final String DELETE_SQL = "DELETE FROM schedule WHERE id = ?";
+
+        this.jdbcTemplate.update(DELETE_SQL, id);
+    }
 }

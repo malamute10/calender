@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,5 +57,11 @@ public class ScheduleController {
     public ScheduleResponseDto putById(@PathVariable Integer id,
                                        @RequestBody SchedulePutRequestDto putRequestDto) {
         return scheduleService.putById(id, putRequestDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable Integer id, @RequestParam String password) {
+
+        scheduleService.deleteById(id, password);
     }
 }

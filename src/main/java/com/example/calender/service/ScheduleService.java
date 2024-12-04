@@ -46,6 +46,15 @@ public class ScheduleService {
         return getResponseDtoById(id);
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteById(int id, String password) {
+
+        String savedPassword = getById(id).getPassword();
+        verifyPasswordEquality(savedPassword, password);
+
+        scheduleRepository.deleteById(id);
+    }
+
     private void verifyPasswordEquality(String savedPassword, String inputPassword) {
         if(!savedPassword.equals(inputPassword)) {
             throw new RuntimeException("Password is incorrect");
