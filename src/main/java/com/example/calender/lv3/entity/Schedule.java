@@ -10,15 +10,15 @@ import lombok.Getter;
 public class Schedule {
 
     private int id;
-    private String author;
+    private User user;
     private String password;
     private String content;
     private LocalDateTime createdDatetime;
     private LocalDateTime updatedDatetime;
 
 
-    public Schedule(String author, String password, String content) {
-        this.author = author;
+    public Schedule(User user, String password, String content) {
+        this.user = user;
         this.password = password;
         this.content = content;
     }
