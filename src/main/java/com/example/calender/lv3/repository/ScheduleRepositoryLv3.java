@@ -107,11 +107,11 @@ public class ScheduleRepositoryLv3 {
         };
     }
 
-    public void updateAuthorAndContentById(int id, String author, String content) {
+    public void updateContentById(int id, String content) {
 
-        final String UPDATE_SQL = "UPDATE schedule_challenge SET author = ?, content = ? WHERE id = ?";
+        final String UPDATE_SQL = "UPDATE schedule_challenge SET content = ? WHERE id = ?";
 
-        this.jdbcTemplate.update(UPDATE_SQL, author, content, id);
+        this.jdbcTemplate.update(UPDATE_SQL, content, id);
     }
 
     public void deleteById(int id) {

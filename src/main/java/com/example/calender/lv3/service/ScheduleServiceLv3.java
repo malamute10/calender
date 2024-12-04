@@ -41,7 +41,7 @@ public class ScheduleServiceLv3 {
         String savedPassword = getById(id).getPassword();
         verifyPasswordEquality(savedPassword, putRequestDto.getPassword());
 
-        scheduleRepository.updateAuthorAndContentById(id, putRequestDto.getAuthor(), putRequestDto.getContent());
+        scheduleRepository.updateContentById(id, putRequestDto.getContent());
 
         return getResponseDtoById(id);
     }
