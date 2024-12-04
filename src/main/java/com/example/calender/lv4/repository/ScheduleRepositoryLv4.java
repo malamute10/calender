@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -55,13 +56,13 @@ public class ScheduleRepositoryLv4 {
         return schedules.stream().findAny();
     }
 
-    public List<ScheduleLv4> findAll(Integer userId, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime) {
+    public List<ScheduleLv4> findAll(Integer userId, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime, Pageable pageable) {
 
         String whereClause = makeWhereClause(userId, startUpdatedDatetime, endUpdatedDatetime);
 
-        final String SELECT_SQL = SELECT_QUERY + whereClause + " ORDER BY s.updated_datetime DESC";
+        final String SELECT_SQL = SELECT_QUERY + whereClause + " ORDER BY s.updated_datetime DESC LIMIT ? OFFSET ?";
 
-        return this.jdbcTemplate.query(SELECT_SQL, scheduleRowMapper());
+        return this.jdbcTemplate.query(SELECT_SQL, scheduleRowMapper(), pageable.getPageSize(), pageable.getOffset());
     }
 
     private String makeWhereClause(Integer userId, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime) {

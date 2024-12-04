@@ -8,6 +8,7 @@ import com.example.calender.lv4.repository.ScheduleRepositoryLv4;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,9 +29,9 @@ public class ScheduleServiceLv4 {
     }
 
     @Transactional(readOnly = true)
-    public List<ScheduleResponseDtoLv4> getAll(Integer userId, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime) {
+    public List<ScheduleResponseDtoLv4> getAll(Integer userId, LocalDateTime startUpdatedDatetime, LocalDateTime endUpdatedDatetime, Pageable pageable) {
 
-        return scheduleRepository.findAll(userId, startUpdatedDatetime, endUpdatedDatetime).stream()
+        return scheduleRepository.findAll(userId, startUpdatedDatetime, endUpdatedDatetime, pageable).stream()
                 .map(ScheduleResponseDtoLv4::new)
                 .toList();
     }
