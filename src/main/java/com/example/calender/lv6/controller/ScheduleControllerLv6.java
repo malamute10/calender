@@ -5,6 +5,7 @@ import com.example.calender.lv6.dto.schedule.SchedulePutRequestDtoLv6;
 import com.example.calender.lv6.dto.schedule.ScheduleResponseDtoLv6;
 import com.example.calender.lv6.service.ScheduleServiceLv6;
 import com.example.calender.lv6.service.UserServiceLv6;
+import jakarta.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/lv5/schedules")
+@RequestMapping("/lv6/schedules")
 @RestController
 @RequiredArgsConstructor
 public class ScheduleControllerLv6 {
@@ -32,7 +33,7 @@ public class ScheduleControllerLv6 {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping()
-    public ScheduleResponseDtoLv6 createSchedule(@RequestBody ScheduleCreationRequestDtoLv6 creationDto) {
+    public ScheduleResponseDtoLv6 createSchedule(@Valid @RequestBody ScheduleCreationRequestDtoLv6 creationDto) {
 
         userService.verifyUserExists(creationDto.getUserId());
 
@@ -57,7 +58,7 @@ public class ScheduleControllerLv6 {
 
     @PutMapping("/{id}")
     public ScheduleResponseDtoLv6 putById(@PathVariable Integer id,
-                                          @RequestBody SchedulePutRequestDtoLv6 putRequestDto) {
+                                          @Valid @RequestBody SchedulePutRequestDtoLv6 putRequestDto) {
         return scheduleService.putById(id, putRequestDto);
     }
 
