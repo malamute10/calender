@@ -37,4 +37,15 @@ public class ControllerExceptionHandlerLv6 {
                 statusCode
         );
     }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<ErrorResponseLv6> handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
+        HttpStatusCode statusCode = e.getStatusCode();
+        String parameterName = e.getParameterName();
+
+        return new ResponseEntity<>(
+                new ErrorResponseLv6(statusCode.value(), "필수 파라미터가 존재하지 않습니다. - " + parameterName),
+                statusCode
+        );
+    }
 }
