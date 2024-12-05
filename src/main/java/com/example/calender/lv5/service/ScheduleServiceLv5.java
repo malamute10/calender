@@ -61,7 +61,7 @@ public class ScheduleServiceLv5 {
 
     private void verifyPasswordEquality(String savedPassword, String inputPassword) {
         if(!savedPassword.equals(inputPassword)) {
-            throw new RuntimeException("Password is incorrect");
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Password is incorrect");
         }
     }
 
