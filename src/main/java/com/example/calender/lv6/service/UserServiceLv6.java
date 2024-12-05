@@ -1,5 +1,6 @@
 package com.example.calender.lv6.service;
 
+import com.example.calender.lv6.dto.user.UserCreationRequestDtoLv6;
 import com.example.calender.lv6.dto.user.UserDtoLv6;
 import com.example.calender.lv6.entity.UserLv6;
 import com.example.calender.lv6.exception.ApiExceptionLv6;
@@ -33,5 +34,14 @@ public class UserServiceLv6 {
     private UserLv6 getById(int id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new ApiExceptionLv6(HttpStatus.NOT_FOUND, "Not Found User"));
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public UserDtoLv6 create(UserCreationRequestDtoLv6 creationDto) {
+        UserLv6 userLv6 = creationDto.toEntity();
+
+        UserLv6 savedUser = userRepository.save(userLv6);
+
+        return new UserDtoLv6(savedUser);
     }
 }

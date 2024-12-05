@@ -1,5 +1,6 @@
 package com.example.calender.lv6.repository;
 
+import com.example.calender.lv5.exception.ApiException;
 import com.example.calender.lv6.entity.ScheduleLv6;
 import com.example.calender.lv6.entity.UserLv6;
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -45,7 +47,7 @@ public class ScheduleRepositoryLv6 {
         Number id = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
 
         return findById(id.intValue())
-                .orElseThrow(() -> new RuntimeException("Error Occur during Save Entity"));
+                .orElseThrow(() -> new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Error Occur during Save Entity"));
     }
 
     public Optional<ScheduleLv6> findById(Integer id) {

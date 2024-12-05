@@ -17,4 +17,9 @@ public class UserLv6 {
     public UserLv6(int id) {
         this.id = id;
     }
+
+    public UserLv6(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
 }
