@@ -1,17 +1,26 @@
+## 필수과제 API 명세
+
+| 기능       | Http Method | Path            | query Param       | request Body                                                                               | response Body                                                                                                                                                                                 | 
+|----------|-------------|-----------------|-------------------|--------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 일정 저장    | `POST`      | /schedules      | -                 | {<br/> "author" : "String", <br/> "password" : "String", <br/> "content" : "String" <br/>} | {<br/>  "id" : "Number", <br/> "author" : "String", <br/> "content" : "String", <br/> "createdDatetime" : "DateTime", <br/> "updatedDatetime" : "DateTime"<br/>}                              |
+| 일정 목록 조회 | `GET`       | /schedules      | name, updatedDate | -                                                                                          | [<br/> &nbsp;{<br/>  "id" : "Number", <br/> "author" : "String", <br/> "content" : "String", <br/> "createdDatetime" : "DateTime", <br/> "updatedDatetime" : "DateTime"<br/> &nbsp; } <br/> ] |
+| 일정 단건 조회 | `GET`       | /schedules/{id} | -                 | -                                                                                          | {<br/>  "id" : "Number", <br/> "author" : "String", <br/> "content" : "String", <br/> "createdDatetime" : "DateTime", <br/> "updatedDatetime" : "DateTime"<br/>}                              |
+| 일정 수정    | `PUT`       | /schedules/{id} | -                 | {<br/> "password" : "String", <br/> "content" : "String" <br/>}                            | {<br/>  "id" : "Number", <br/> "author" : "String", <br/> "content" : "String", <br/> "createdDatetime" : "DateTime", <br/> "updatedDatetime" : "DateTime"<br/>}                              |
+| 일정 삭제    | `DELETE`    | /schedules/{id} | password          | -                                                                                          |                                                                                                                                                                                               |
+
+
 ## 필수과제 ERD
 ![필수과제 ERD.png](필수과제_ERD.png)
 
-### Level 1
-- 일정 추가
-- 일정 목록 조회 
-- 일정 단건 조회
 
-### Level 2
-- 일정 수정
-  - 비밀번호 검사 
-- 일정 삭제
-  - 비밀번호 검사 
-
+## 도전과제 API 명세
+| 기능       | Http Method | Path            | query Param                             | request Body                                                                               | response Body                                                                                                                                                                                                            | 
+|----------|-------------|-----------------|-----------------------------------------|--------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 일정 저장    | `POST`      | /schedules      | -                                       | {<br/> "userId" : "Number", <br/> "password" : "String", <br/> "content" : "String" <br/>} | {<br/>  "id" : "Number", <br/> "userId" : "Number", <br/> "author" : "String", <br/> "content" : "String", <br/> "createdDatetime" : "DateTime", <br/> "updatedDatetime" : "DateTime"<br/>}                              |
+| 일정 목록 조회 | `GET`       | /schedules      | name, updatedDate, pageNumber, pageSize | -                                                                                          | [<br/> &nbsp;{<br/>  "id" : "Number", <br/> "userId" : "Number", <br/> "author" : "String", <br/> "content" : "String", <br/> "createdDatetime" : "DateTime", <br/> "updatedDatetime" : "DateTime"<br/> &nbsp; } <br/> ] |
+| 일정 단건 조회 | `GET`       | /schedules/{id} | -                                       | -                                                                                          | {<br/>  "id" : "Number", <br/> "userId" : "Number", <br/> "author" : "String", <br/> "content" : "String", <br/> "createdDatetime" : "DateTime", <br/> "updatedDatetime" : "DateTime"<br/>}                              |
+| 일정 수정    | `PUT`       | /schedules/{id} | -                                       | {<br/> "password" : "String", <br/> "content" : "String" <br/>}                            | {<br/>  "id" : "Number", <br/> "userId" : "Number", <br/> "author" : "String", <br/> "content" : "String", <br/> "createdDatetime" : "DateTime", <br/> "updatedDatetime" : "DateTime"<br/>}                              |
+| 일정 삭제    | `DELETE`    | /schedules/{id} | password                                | -                                                                                          |                                                                                                                                                                                                                          |
 
 ## 도전과제 ERD
 ![도전과제 ERD.png](도전과제_ERD.png)
