@@ -57,6 +57,25 @@ public class ScheduleRepository {
         return this.jdbcTemplate.query(SELECT_SQL, scheduleRowMapper());
     }
 
+    /**
+     * 입력된 파라미터에 따라 WHERE 조건을 생성해준다.
+     *
+     * @param author : 작성자명
+     * @param updatedDate  수정일 (YYYY-MM-DD)
+     *
+     * @Return
+     * 1. author == null, updatedDate == null 인경우 <p>
+     *     return WHERE 1=1
+     * <p>
+     * 2. author != null, updatedDate == null 인경우 <p>
+     *     return WHERE 1=1 AND author == '작성자'
+     * <p>
+     * 3. author == null, updatedDate != null 인경우 <p>
+     *    return WHERE 1=1 AND updatedDateTime BETWEEN'2024-12-10 00:00:00' AND '2024-12-11 00:00:00'
+     * <p>
+     * 4. author != null, updatedDate != null 인경우 <p>
+     *     return WHERE 1=1 AND author == '작성자' AND updatedDateTime BETWEEN'2024-12-10 00:00:00' AND '2024-12-11 00:00:00'
+     */
     private String makeWhereClause(String author, LocalDate updatedDate) {
 
         StringBuilder stringBuilder = new StringBuilder("WHERE 1=1");

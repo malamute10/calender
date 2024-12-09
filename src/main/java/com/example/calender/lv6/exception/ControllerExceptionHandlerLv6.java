@@ -23,6 +23,9 @@ public class ControllerExceptionHandlerLv6 {
         );
     }
 
+    /**
+     * @Valid를 통해 검사가 실패되었을 경우 발생한 예외 처리
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponseLv6> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 
@@ -38,6 +41,9 @@ public class ControllerExceptionHandlerLv6 {
         );
     }
 
+    /**
+     * 필수 값인 RequestParam 이 입력되지 않았을경우 발생한 예외 처리
+     */
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<ErrorResponseLv6> handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
         HttpStatusCode statusCode = e.getStatusCode();
