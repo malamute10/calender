@@ -9,7 +9,7 @@ public class ScheduleCreationRequestDtoLv4 {
     private int userId;
     private String password;
     private String content;
-    private String title;
+    private String title2;
 
 
     public ScheduleLv4 toEntity() {
